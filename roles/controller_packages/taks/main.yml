@@ -1,0 +1,7 @@
+---
+  - name: Install pip
+    apt: name=python-pip state=present
+    when: ansible_os_family == "Debian"
+
+  - name: Install boto
+    pip: name=boto state=present

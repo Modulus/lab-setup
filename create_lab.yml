@@ -1,0 +1,27 @@
+---
+  - name: Creating ec2 instances
+    hosts: controller
+    gather_facts: yes
+    connection: local
+    vars:
+      users: "{{ lookup('file', 'users/users.json') | from_json }}"
+      instances: 2
+    tasks:
+      - debug: msg="Setting up lab with users.json file"
+    roles:
+      - controller_packages
+      - lab_security_groups
+      - lab_machine_ec2
+
+
+
+
+  - name: configure load testers
+    hosts:  lab_machine
+    gather_facts: false
+    tasks:
+      - name: Wait for SSH to come up.
+        local_action: wait_for host={{inventory_hostname}} port=22 delay=60 timeout=320 state=started
+
+
+      # Do more tasks

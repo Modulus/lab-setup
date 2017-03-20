@@ -1,0 +1,6 @@
+  - name: Run testinfra test suite
+    hosts: lab_machine_static
+    gather_facts: yes
+    become: yes
+    roles:
+        - tests

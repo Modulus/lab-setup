@@ -1,0 +1,23 @@
+- name: Create inventory
+  vars:
+    user_list: "{{users}}"
+  template:
+    src: inventory.j2
+    dest: /Users/Modulus/GitProjects/booster/lab-setup/inventory_ec2/lab_machine_static
+    #dest: /vagrant/inventory_ec2/lab_machine_static
+
+- name: Create inventory
+  vars:
+    user_list: "{{users}}"
+  template:
+    src: inventory.login.j2
+    dest: /Users/Modulus/GitProjects/booster/lab-setup/inventory_login/lab_login
+    #dest: /vagrant/inventory_login/lab_login
+
+
+- name: Create lab list for print
+  vars:
+    user_list: "{{users}}"
+  template:
+    src: lab.list.j2
+    dest: /Users/Modulus/GitProjects/booster/lab-setup/lab.list

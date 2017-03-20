@@ -1,0 +1,8 @@
+---
+  - name: Install boto locally
+    hosts: controller
+    gather_facts: yes
+    connection: local
+    become: yes
+    roles:
+      - packages

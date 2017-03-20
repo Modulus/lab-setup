@@ -1,0 +1,16 @@
+def test_docker_image_zookeeper_is_present(Command):
+    cmd = Command("sudo docker images")
+    assert "wurstmeister/zookeeper" in str(cmd.stdout)
+
+def test_docker_image_alphine_java_is_present(Command):
+    cmd = Command("sudo docker images")
+    assert "anapsix/alpine-java" in str(cmd.stdout)
+
+def test_docker_image_ubuntu_16_04_is_present(Command):
+    cmd = Command("sudo docker images")
+    assert "ubuntu" in str(cmd.stdout)
+    assert "16.04" in str(cmd.stdout)
+
+def test_docker_image_pyspark_notbook_is_present(Command):
+    cmd = Command("sudo docker images")
+    assert "jupyter/pyspark-notebook" in str(cmd.stdout)

@@ -1,0 +1,4 @@
+---
+  - include: create_lab.yml
+  - include: create_static_inventory.yml
+  - include: finalize_lab_setup.yml

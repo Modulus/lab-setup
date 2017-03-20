@@ -1,0 +1,81 @@
+---
+  - name: Install mkpasswd
+    apt:
+      name: whois
+      state: present
+
+  - name: Ensure docker group is present
+    group: name=docker state=present
+
+  - name: Ensure lab group is present
+    group: name=lab state=present
+
+
+  - include: ssh_config.yml
+
+  - include: user.yml
+    vars:
+        user_name: "{{user}}"
+        user_password: "{{password}}"
+
+  - name: make scripts folder
+    file:
+      path: "/home/{{user}}/scripts"
+      owner: "{{user}}"
+      group: "{{user}}"
+      state: directory
+      recurse: yes
+      mode: 0755
+
+  - name: copy python script
+    copy:
+      src: files/passwd.py
+      dest: "/home/{{user}}/scripts/passwd.py"
+      owner: "{{user}}"
+      group: "{{user}}"
+      mode: 0777
+
+  - name: Create password hash for jupyther
+    command: "/home/{{user}}/scripts/passwd.py {{password}}"
+    register: passwd_facts
+
+  - name: Debug passwd_facts
+    debug: msg={{passwd_facts.stdout_lines | last }}
+
+  - name: Ensure workshop_dir exists on target machine
+    file:
+      path: "{{workshop_dir}}"
+      owner: "{{user}}"
+      state: directory
+      recurse: yes
+
+  - name: Copy docker-compose.yml to workshop folder
+    template:
+      src: templates/docker-compose.yml.j2
+      dest: "{{workshop_dir}}/docker-compose.yml"
+      owner: "{{user}}"
+      group: "{{user}}"
+
+
+  - name: Create notebook directory
+    file:
+      path: "{{workshop_dir}}/notebooks"
+      owner: "{{user}}"
+      group: "{{user}}"
+      state: directory
+      recurse: yes
+      mode: 0777
+
+  - name: Copy Kafka-spark-publisher.ipynb to notebooks folder
+    copy:
+      src: files/Kafka-spark-publisher.ipynb
+      dest: "{{workshop_dir}}/notebooks/Kafka-spark-publisher.ipynb"
+      owner: "ubuntu"
+      group: "{{user}}"
+
+  - name: Copy Kafka-spark.ipynb to notebooks folder
+    copy:
+      src: files/Kafka-spark.ipynb
+      dest: "{{workshop_dir}}/notebooks/Kafka-spark.ipynb"
+      owner: ubuntu
+      group: "{{user}}"

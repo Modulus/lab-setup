@@ -1,0 +1,15 @@
+---
+  - name: Setting up docker and access to commands
+    hosts: controller
+    gather_facts: yes
+    connection: local
+    become: no
+    #connection: local
+    vars:
+      users: "{{ lookup('file', 'users/users.json') | from_json }}"
+    # tasks:
+    #   - debug: msg="the value of username is {{ item.name }} and password is {{item.password}}"
+    #     when: "{{item.index}} < 6"
+    #     with_items: "{{contents}}"
+    roles:
+      - create_static_inventory

@@ -1,0 +1,11 @@
+---
+  - name: Get ec2.py script
+    get_url:
+      url: https://raw.github.com/ansible/ansible/devel/contrib/inventory/ec2.py
+      dest: inventory_ec2/ec2.py
+      mode: 0500
+  - name: link controller to inventory_ec2
+    file:
+      src: /vagrant/inventory/controller
+      dest: /vagrant/inventory_ec2/controller
+      state: link

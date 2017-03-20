@@ -1,0 +1,20 @@
+---
+  - name: Gather facts
+    ec2_remote_facts:
+      aws_access_key: "{{aws_access_key_id}}"
+      aws_secret_key: "{{aws_secret_access_key}}"
+      region: "{{region}}"
+      filters:
+        "tag:Role": "lab"
+    register: ec2_data
+
+
+
+  - name: Delete current
+    ec2:
+      aws_access_key: "{{aws_access_key_id}}"
+      aws_secret_key: "{{aws_secret_access_key}}"      
+      state: absent
+      region: "{{region}}"
+      instance_ids: "{{item.id}}"
+    with_items: "{{ec2_data.instances}}"

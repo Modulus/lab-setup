@@ -1,0 +1,19 @@
+---
+  - name: Setting up docker and access to commands
+    hosts: controller
+    gather_facts: yes
+    become: no
+    connection: local
+    tasks:
+      - command: bash -c "echo -n yourpassword | openssl sha1"
+        register: cmd_fact
+    #vars:
+    #  users: "{{ lookup('file', 'users/users.json') | from_json }}"
+    # tasks:
+    #   - debug: msg="the value of username is {{ item.name }} and password is {{item.password}}"
+    #     when: "{{item.index}} < 6"
+    #     with_items: "{{contents}}"
+    #roles:
+    #  - nested
+      #- lab_machine_user
+      #- lab_machine_docker

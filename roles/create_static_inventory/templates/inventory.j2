@@ -1,0 +1,4 @@
+[lab_machine_static]
+{% for host in groups["lab_machine"] %}
+{{host}} user={{user_list[loop.index].name}} password={{user_list[loop.index].password}} workshop_dir=/home/{{user_list[loop.index].name}}/workshop
+{% endfor %}

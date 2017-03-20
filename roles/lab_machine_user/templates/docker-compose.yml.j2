@@ -1,0 +1,52 @@
+version: '2'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    restart: always
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka
+    restart: always
+    links:
+      - zookeeper:zk
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: zk:2181
+      KAFKA_HEAP_OPTS: -Xmx512M -Xms512M
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  twitter.kafka:
+    build: ./twitter-kafka
+    links:
+      - kafka
+    depends_on:
+      - kafka
+    environment:
+      CONSUMER_KEY: MoB8te9N7XIHHOiqH6af3QAU4
+      CONSUMER_SECRET: M0klEgU4FjfJZMlwyYRhnpAGUOMXfA3a80RB0MkG4i4a7g0Vjf
+      ACCESS_TOKEN: 16153997-FefSjNE09fQL4WyzlN91jqy7Pp37caFYn0bqC6ooH
+      ACCESS_TOKEN_SECRET: mHZNORH0JiowhS9oqmpfjVYEosW47nKEp1lDoHeY5G5sb
+      WORDS_TO_TRACK: BigData,Hadoop,Predictive,spark,bigdata,Analytics,IoT
+    command: ["/opt/app/wait-for-it.sh", "kafka:9092", "--", "/opt/venv/bin/python3 twitter_kafka_direct.py"]
+  jupyter:
+    build: ./docker-stacks/pyspark-notebook
+    links:
+      - kafka
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+    environment:
+      GEN_CERT: 'yes'
+  kafka.web.app:
+     build: ./kafka-web-app
+     links:
+       - kafka
+     ports:
+       - "80:5000"

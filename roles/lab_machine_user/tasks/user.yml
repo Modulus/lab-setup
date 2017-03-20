@@ -1,0 +1,28 @@
+---
+  - name: Encrypt password
+    command: "mkpasswd --method=sha-512 {{user_password}}"
+    register: encrypted_password_fact
+
+# TODO: Add user as sudo http://stackoverflow.com/questions/33359404/ansible-best-practice-for-maintaining-list-of-sudoers
+  - name: Add users
+    user:
+      append: yes
+      comment: Lab user
+      createhome: yes
+      generate_ssh_key: yes
+      groups: lab,docker,sudo
+      shell: /bin/bash
+      name: "{{user_name}}"
+      password: "{{encrypted_password_fact.stdout}}"
+      ssh_key_bits: 2048
+      ssh_key_comment: "{{user_name}}"
+      state: present
+  - name: Print info
+    debug: msg="User {{user_name}},  password {{user_password}}"
+
+
+  - name: Set user to start in workshop folder
+    lineinfile:
+      dest: "/home/{{user}}/.bashrc"
+      line: "cd {{workshop_dir}}"
+      state: present

@@ -1,0 +1,73 @@
+---
+  - name: Install git
+    apt: name=git state=present
+
+  - name: Install ntp
+    apt: name=ntp state=present
+
+  - name: Git clone web app
+    git:
+      repo: https://github.com/fsroque/kafka-web-app.git
+      dest: "{{workshop_dir}}/kafka-web-app"
+      force: yes
+
+  - name: Git clone twitter-kafka
+    git:
+      repo: https://github.com/fsroque/twitter-kafka.git
+      dest: "{{workshop_dir}}/twitter-kafka"
+      force: yes
+
+  - name: git clone stacks
+    git:
+      repo: https://github.com/fsroque/docker-stacks.git
+      dest: "{{workshop_dir}}/docker-stacks"
+      force: yes
+
+  - name: Change user access to the newly cloned twitter-kafka repo
+    file:
+      path: "{{workshop_dir}}/twitter-kafka"
+      owner: "{{user}}"
+      group: "{{user}}"
+      state: directory
+      recurse: yes
+
+  - name: Change user access to the newly cloned twitter-kafka repo
+    file:
+      path: "{{workshop_dir}}/docker-stacks"
+      owner: "{{user}}"
+      group: "{{user}}"
+      state: directory
+      recurse: yes
+
+  - name: Change user access to the newly cloned twitter-kafka repo
+    file:
+      path: "{{workshop_dir}}/kafka-web-app"
+      owner: "{{user}}"
+      group: "{{user}}"
+      state: directory
+      recurse: yes
+
+
+
+  # Install docker requisites
+  # This tasklist will ensure that the docker runtime is installed properly on the target machine
+  # The machine is expected to be running ubuntu
+
+  # Prerequisite packages
+  - name: ensure linux-image-extra(uname) installed
+    apt: name=linux-image-extra-{{ ansible_kernel }} update_cache=yes
+
+  - name: ensure linux-image-extra-virtual installed
+    apt: name=linux-image-extra-virtual
+
+  - name: ensure ca-certificates installed
+    apt: name=ca-certificates
+
+  - name: ensure apt-transport-https installed
+    apt: name=apt-transport-https
+
+  - name: ensure kafkacat is installed
+    apt: name=kafkacat
+
+  - include: install_docker.yml
+  - include: hosts.yml

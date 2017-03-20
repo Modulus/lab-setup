@@ -1,0 +1,10 @@
+---
+  - name: Creating user
+    hosts: controller
+    gather_facts: yes
+    #connection: local
+    become: no
+    tasks:
+        - debug: msg="Deleted all lab_machines"
+    roles:
+        - lab_machine_delete

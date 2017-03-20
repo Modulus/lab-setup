@@ -1,0 +1,22 @@
+---
+  # Need to set these:
+  # PasswordAuthentication yes
+  # PermitRootLogin yes (was prohibit-password)
+  # Check UseLogin if these do not work
+
+  - name: Enable password authentication over ssh
+    lineinfile:
+      destfile: /etc/ssh/sshd_config
+      regexp: '^PasswordAuthentication no$'
+      line: 'PasswordAuthentication yes'
+
+  - name: PermitRootLogin
+    lineinfile:
+      destfile: /etc/ssh/sshd_config
+      regexp: '^PermitRootLogin no$'
+      line: 'PermitRootLogin yes'
+
+  - name: Restart ssh service
+    service:
+      name: ssh
+      state: restarted

@@ -1,0 +1,31 @@
+---
+  - name: ec2_group for booster 2016 lab machines
+    ec2_group:
+      name: lab-machine-sg
+      description: Security groups for lab machines
+      region: eu-west-1
+      state: present
+      aws_access_key: "{{aws_access_key_id}}"
+      aws_secret_key: "{{aws_secret_access_key}}"
+      rules:
+        - proto: tcp
+          from_port: 80
+          to_port: 80
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 8888
+          to_port: 8888
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 22
+          to_port: 22
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 443
+          to_port: 443
+          cidr_ip: 0.0.0.0/0
+      rules_egress:
+        - proto: all
+          from_port: all
+          to_port: all
+          cidr_ip: 0.0.0.0/0

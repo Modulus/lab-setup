@@ -1,0 +1,10 @@
+---
+  - name: ensure python-pip is installed
+    apt:
+      name: python-pip
+      state: present
+
+  - name: ensure ipython is pip installed
+    pip:
+      name: ipython
+      state: present

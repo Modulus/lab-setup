@@ -1,0 +1,44 @@
+def test_workshop_dir_present(File):
+    file = File("/home/{{user}}/workshop")
+    assert file.exists
+    assert file.is_directory
+
+def test_notebooks_dir_is_present(File):
+    file = File("/home/{{user}}/workshop/notebooks")
+    assert file.exists
+    assert file.is_directory
+
+def test_docker_compose_yml_is_present(File):
+    file = File("/home/{{user}}/workshop/docker-compose.yml")
+    assert file.exists
+    assert file.is_file
+
+def test_docker_stacks_dir_is_present(File):
+    file = File("/home/{{user}}/workshop/docker-stacks")
+    assert file.exists
+    assert file.is_directory
+
+def test_docker_stacks_dir_is_git_repo(File):
+    file = File("/home/{{user}}/workshop/docker-stacks/.git")
+    assert file.exists
+    assert file.is_directory
+
+
+def test_kafka_docker_dir_is_present(File):
+    file = File("/home/{{user}}/workshop/kafka-docker")
+    assert not file.exists
+
+def test_kafka_docker_dir_is_git_repo(File):
+    file = File("/home/{{user}}/workshop/kafka-docker/.git")
+    assert not file.exists
+
+
+def test_twitter_kafka_dir_is_present(File):
+    file = File("/home/{{user}}/workshop/twitter-kafka")
+    assert file.exists
+    assert file.is_directory
+
+def test_twitter_kafka_dir_is_git_repo(File):
+    file = File("/home/{{user}}/workshop/twitter-kafka/.git")
+    assert file.exists
+    assert file.is_directory

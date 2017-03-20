@@ -1,0 +1,9 @@
+---
+  - name: Print velcome message
+    hosts: ec2_controller
+    gather_facts: yes
+    become: yes
+    tasks:
+      - debug: msg="Welcome master, I am ready to accept your commands!"
+    roles:
+      - controller

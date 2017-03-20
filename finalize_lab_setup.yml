@@ -1,0 +1,8 @@
+---
+  - name: finalize lab setup
+    hosts: lab_machine_static
+    gather_facts: yes
+    become: yes
+    roles:
+        - lab_machine_user
+        - lab_machine_services

@@ -1,0 +1,40 @@
+---
+  # Set up Docker PPA in APT.
+  #
+  # Proxy or firewall problems? Workaround: use "force=yes" on things from docker PPA
+
+
+  - name: ensure gpg key for docker apt repo is present
+    become: true
+    apt_key:
+      keyserver: hkp://p80.pool.sks-keyservers.net:80
+      id: 58118E89F3A912897C070ADBF76221572C52609D
+      state: present
+
+  - name: ensure docker-sources.list with docker PPA for apt-get
+    template: src=docker-sources.list.j2 dest=/etc/apt/sources.list.d/docker-sources.list owner=root group=root mode=0644
+
+  - name: ensure docker-engine installed
+    apt: name=docker-engine state=present update_cache=yes force=yes
+
+  - name: ensure docker daemon started
+    service: name=docker state=started
+
+  - name: ensure pip is installed
+    apt: name=python-pip state=latest
+
+  - name: ensure docker support for Ansible
+    pip: name=docker-py state=latest
+
+
+  # install docker compose: https://docs.docker.com/compose/install/
+  - name: Install docker compose from git
+    get_url:
+      url: "https://github.com/docker/compose/releases/download/1.10.0/docker-compose-{{ansible_system}}-{{ansible_architecture}}"
+      dest: "/usr/local/bin/docker-compose"
+
+  - name: Make docker-compose executable
+    file:
+      path: /usr/local/bin/docker-compose
+      group: docker
+      mode: 0555

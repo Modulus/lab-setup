@@ -1,0 +1,18 @@
+## Test users and services
+
+def test_passwd_file(File):
+    passwd = File("/etc/passwd")
+    assert passwd.contains("{{user}}")
+    #assert passwd.user == "{{user}}"
+    #assert passwd.group == "{{user}}"
+    #assert passwd.mode == 0o644
+
+
+#def test_user_exists(User):
+#    user = User(name="{{user}}")
+#    assert user.exists
+#    assert user.groups.contains("{{user}}")
+#    assert user.groups.contains("sudo")
+#    assert user.groups.contains("docker")
+#    assert user.groups.contains("lab")
+    #assert user.password ==

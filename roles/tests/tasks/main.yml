@@ -1,0 +1,58 @@
+---
+  - name: install testinfra
+    pip:
+      name: testinfra
+      state: present
+
+  - name: copy user scripts
+    template:
+      dest: "/home/{{user}}/scripts/user.py"
+      src:  templates/user.py.j2
+      owner: root
+      group: root
+      mode: 0744
+
+  - name: copy docker_images scripts
+    template:
+      dest: "/home/{{user}}/scripts/docker_images.py"
+      src:  templates/docker_images.py.j2
+      owner: root
+      group: root
+      mode: 0744
+
+  - name: copy folder scripts
+    template:
+      dest: "/home/{{user}}/scripts/folders.py"
+      src:  templates/folder.py.j2
+      owner: root
+      group: root
+      mode: 0744
+
+  - name: copy service scripts
+    template:
+      dest: "/home/{{user}}/scripts/service.py"
+      src:  templates/service.py.j2
+      owner: root
+      group: root
+      mode: 0744
+
+  - name: trigger user tests
+    command: testinfra -v user.py
+    args:
+      chdir: "/home/{{user}}/scripts"
+
+
+  - name: trigger service tests
+    command: testinfra -v service.py
+    args:
+      chdir: "/home/{{user}}/scripts"
+
+  - name: trigger folder tests
+    command: testinfra -v folders.py
+    args:
+      chdir: "/home/{{user}}/scripts"
+
+  - name: trigger docker image tests
+    command: testinfra -v docker_images.py
+    args:
+      chdir: "/home/{{user}}/scripts"
