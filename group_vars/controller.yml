@@ -2,16 +2,12 @@
 # TODO: Add AWS keys
 aws_access_key_id: XXXXXXXXXXXXXXXXXXXX
 aws_secret_access_key: XXXXXXXXXXXXXXXXXXXX
-controller_ip: 54.194.11.135
 subnet_id: subnet-afd96af7
-#aws_access_key_id: AKIAIUZCZJ2HRRDTJFBA
-#aws_secret_access_key: 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
 users_file: /vagrant/lab_users
 workshop_dir: /home/vagrant/workshop
 instances: 2
 instance_type: t2.small
-#image: ami-b9b394ca
-image: ami-d07329b6
+image: ami-xxxxx
 region: eu-west-1
 ec2_group_name: lab_machine
 inventory_hostname: lab_machine
