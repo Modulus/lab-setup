@@ -2,7 +2,7 @@
 # TODO: Add AWS keys
 aws_access_key_id: XXXXXXXXXXXXXXXXXXXX
 aws_secret_access_key: XXXXXXXXXXXXXXXXXXXX
-subnet_id: subnet-afd96af7
+subnet_id: asdasdffdsasafd
 users_file: /vagrant/lab_users
 workshop_dir: /home/vagrant/workshop
 instances: 2
